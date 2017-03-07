@@ -75,15 +75,30 @@ export default Ember.Object.extend({
     },
 
     open() {
-      this.set('connected', true);
-      this.get('consumer.subscriptions').reload();
+      let webSocket = this.get('webSocket');
+      console.log(`websocket.readyState = ${webSocket.readyState}`);
+
+      // CONNECTING  0 The connection is not yet open.
+      // OPEN  1 The connection is open and ready to communicate.
+      // CLOSING 2 The connection is in the process of closing.
+      // CLOSED  3 The connection is closed or couldn't be opened
+      if(webSocket.readyState === 1) {
+        this.set('connected', true);
+        this.get('consumer.subscriptions').reload();
+      }
     },
 
     close() {
+      let webSocket = this.get('webSocket');
+      console.log(`websocket.readyState = ${webSocket.readyState}`);
+
       this.disconnect();
     },
 
     error() {
+      let webSocket = this.get('webSocket');
+      console.log(`websocket.readyState = ${webSocket.readyState}`);
+
       this.disconnect();
     }
   }
