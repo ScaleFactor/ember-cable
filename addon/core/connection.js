@@ -76,7 +76,7 @@ export default Ember.Object.extend({
 
     open() {
       let webSocket = this.get('webSocket');
-      console.log(`websocket.readyState = ${webSocket.readyState}`);
+      console.log(`open() websocket.readyState = ${webSocket.readyState}`);
 
       // CONNECTING  0 The connection is not yet open.
       // OPEN  1 The connection is open and ready to communicate.
@@ -90,14 +90,14 @@ export default Ember.Object.extend({
 
     close() {
       let webSocket = this.get('webSocket');
-      console.log(`websocket.readyState = ${webSocket.readyState}`);
+      console.log(`close() websocket.readyState = ${webSocket.readyState}`);
 
       this.disconnect();
     },
 
     error() {
       let webSocket = this.get('webSocket');
-      console.log(`websocket.readyState = ${webSocket.readyState}`);
+      console.log(`error() websocket.readyState = ${webSocket.readyState}`);
 
       this.disconnect();
     }
