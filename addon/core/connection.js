@@ -12,8 +12,12 @@ export default Ember.Object.extend({
   },
 
   send(data) {
-    if(this.isOpen()) {
-      this.get('webSocket').send(JSON.stringify(data));
+    if(this.isOpen() && (this.get('webSocket').readyState === 1)) {
+      try {
+        this.get('webSocket').send(JSON.stringify(data));
+      } catch(error) {
+        console.log(`WebSocket error in send data: ${error.name} ${error.message}`);
+      }
     }
   },
 
@@ -75,13 +79,6 @@ export default Ember.Object.extend({
     },
 
     open() {
-      let webSocket = this.get('webSocket');
-      console.log(`open() websocket.readyState = ${webSocket.readyState}`);
-
-      // CONNECTING  0 The connection is not yet open.
-      // OPEN  1 The connection is open and ready to communicate.
-      // CLOSING 2 The connection is in the process of closing.
-      // CLOSED  3 The connection is closed or couldn't be opened
       if(webSocket.readyState === 1) {
         this.set('connected', true);
         this.get('consumer.subscriptions').reload();
@@ -89,16 +86,10 @@ export default Ember.Object.extend({
     },
 
     close() {
-      let webSocket = this.get('webSocket');
-      console.log(`close() websocket.readyState = ${webSocket.readyState}`);
-
       this.disconnect();
     },
 
     error() {
-      let webSocket = this.get('webSocket');
-      console.log(`error() websocket.readyState = ${webSocket.readyState}`);
-
       this.disconnect();
     }
   }
