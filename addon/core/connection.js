@@ -79,7 +79,7 @@ export default Ember.Object.extend({
     },
 
     open() {
-      if(webSocket.readyState === 1) {
+      if(this.get('webSocket').readyState === 1) {
         this.set('connected', true);
         this.get('consumer.subscriptions').reload();
       }
